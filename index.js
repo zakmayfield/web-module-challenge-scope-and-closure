@@ -30,7 +30,7 @@ function processFirstItem(stringList, callback) {
  * 
  * 2. Which of the two uses a closure? How can you tell?
  * 
- * 3. In what scenario would the counter1 code be preferable? In what scenario would counter2 be better? 
+ * 3. In what scenario would the counter1 code be preferable? In what scenario would counter2 be better? ?
  *
 */
 
@@ -52,15 +52,16 @@ function counter2() {
 }
 
 
+
+
 /* Task 2: inning() 
 
 Write a function called `inning` that returns a random number of points that a team scored in an inning. This should be a whole number between 0 and 2. */
 
-function inning(/*Code Here*/){
-
-    /*Code Here*/
-
+function inning(){
+    return Math.floor(Math.random() * 3)
 }
+
 
 /* Task 3: finalScore()
 
@@ -76,11 +77,24 @@ finalScore(inning, 9) might return:
 
 */ 
 
-function finalScore(/*code Here*/){
+function finalScore(inningCB, numOfInnings){
+  let home = 0
+  let away = 0
 
-  /*Code Here*/
+  for(let i = 0; i < numOfInnings; i++){
+    home += inningCB()
+    away += inningCB()
+  }
 
+  return {
+    Home: home,
+    Away: away
+  }
 }
+
+// console.log(finalScore(inning, 9))
+
+
 
 /* Task 4: 
 
@@ -103,8 +117,31 @@ and returns the score at each pont in the game, like so:
 Final Score: awayTeam - homeTeam */
 
 
-function scoreboard(/* CODE HERE */) {
-  /* CODE HERE */
+function getInningScore(inningCB) {
+  return {
+    Home: inningCB(),
+    Away: inningCB()
+  }
 }
+console.log(getInningScore(inning))
+
+function scoreboard(inningscoreCB, inningCB, inningsNum) {
+  const scoreByInning = [];
+  let homeScore = 0;
+  let awayScore = 0;
+  for (let i = 0; i < inningsNum; i++) {
+    const currentInning = inningscoreCB(inningCB)
+    homeScore = homeScore + currentInning.Home
+    awayScore = awayScore + currentInning.Away
+    scoreByInning.push(`Inning ${i + 1}: Away ${currentInning.Away} - Home ${currentInning.Home}`)
+  }
+  if (homeScore === awayScore) {
+    scoreByInning.push(`This game will require extra innings: Away ${awayScore} - Home ${homeScore}`);
+  } else {
+    scoreByInning.push(`Final Score: Away ${awayScore} - Home ${homeScore}`);
+  }
+  return scoreByInning;
+}
+console.log("Task 4:", scoreboard(getInningScore, inning, 9));
 
 
